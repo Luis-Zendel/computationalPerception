@@ -91,15 +91,32 @@ def acomodarAlmacen(almacenActual,posicionRobot, tamanioMatriz, m):
     print(almacenActual[3])
     # El rango utilizado es 4 porque es el numero maximo de opciones que puede tener el robot en todos los escenarios posibles
     while siguientePosicion != posicion_M[m]:
+        if(posicionRobot[1]+1 >= 0 and posicionRobot[1]+1 < tamanioMatriz and almacenActual[posicionRobot[0]][posicionRobot[1]+1] != "#"):
+            print("Se puede mover una posición a derecha")
+            print("Posición con cordenadas: ", posicionRobot[0], posicionRobot[1]+1)  
+            distanciaAbajo = distanciaManhattan([ posicionRobot[0], posicionRobot[1]+1], posicion_M[m])
+            print(distanciaAbajo)
+            minimo = distanciaAbajo
+            siguientePosicion = [ posicionRobot[0], posicionRobot[1]+1]
+
+        if(posicionRobot[1]-1 >= 0 and posicionRobot[1]-1 < tamanioMatriz and almacenActual[posicionRobot[0]][posicionRobot[1]-1] != "#"):
+            print("Se puede mover una posición izquierda")
+            print("Posición con cordenadas: ", posicionRobot[0], posicionRobot[1]-1)  
+            distanciaArriba = distanciaManhattan([ posicionRobot[0], posicionRobot[1]-1], posicion_M[m])
+            print(distanciaArriba)
+            if(minimo> distanciaArriba):
+                minimo = distanciaArriba
+                siguientePosicion = [ posicionRobot[0], posicionRobot[1]-1]
         if(posicionRobot[0]+1 >= 0 and posicionRobot[0]+1 < tamanioMatriz and almacenActual[posicionRobot[0]+1][posicionRobot[1]] != "#"):
-            print("Se puede mover una posición a la derecha")
+            print("Se puede mover una posición arriba")
             print("Posición con cordenadas: ", posicionRobot[0]+1, posicionRobot[1])
             distanciaDerecha = distanciaManhattan([ posicionRobot[0]+1, posicionRobot[1]], posicion_M[m])
-            minimo = distanciaDerecha
-            siguientePosicion = [ posicionRobot[0]+1, posicionRobot[1]]
+            if(minimo> distanciaDerecha):
+                minimo = distanciaDerecha
+                siguientePosicion = [ posicionRobot[0]+1, posicionRobot[1]]
             print(distanciaDerecha)
         if(posicionRobot[0]-1 < tamanioMatriz and posicionRobot[0]-1 >= 0 and almacenActual[posicionRobot[0]-1][posicionRobot[1]] != "#"):
-            print("Se puede mover una posición a la izquierda")
+            print("Se puede mover una posición abajo")
             print("Posición con cordenadas: ", posicionRobot[0]-1, posicionRobot[1])    
             distanciaIzquierda = distanciaManhattan([ posicionRobot[0]-1, posicionRobot[1]], posicion_M[m])
             print(distanciaIzquierda)
@@ -107,23 +124,7 @@ def acomodarAlmacen(almacenActual,posicionRobot, tamanioMatriz, m):
                 minimo= distanciaIzquierda
                 siguientePosicion = [ posicionRobot[0]-1, posicionRobot[1]]
 
-        if(posicionRobot[1]+1 >= 0 and posicionRobot[1]+1 < tamanioMatriz and almacenActual[posicionRobot[0]][posicionRobot[1]+1] != "#"):
-            print("Se puede mover una posición a hacia abajo")
-            print("Posición con cordenadas: ", posicionRobot[0], posicionRobot[1]+1)  
-            distanciaAbajo = distanciaManhattan([ posicionRobot[0], posicionRobot[1]+1], posicion_M[m])
-            print(distanciaAbajo)
-            if(minimo>distanciaAbajo):
-                minimo = distanciaAbajo
-                siguientePosicion = [ posicionRobot[0], posicionRobot[1]+1]
 
-        if(posicionRobot[1]-1 >= 0 and posicionRobot[1]-1 < tamanioMatriz and almacenActual[posicionRobot[0]][posicionRobot[1]-1] != "#"):
-            print("Se puede mover una posición a hacia arriba")
-            print("Posición con cordenadas: ", posicionRobot[0], posicionRobot[1]-1)  
-            distanciaArriba = distanciaManhattan([ posicionRobot[0], posicionRobot[1]-1], posicion_M[m])
-            print(distanciaArriba)
-            if(minimo> distanciaArriba):
-                minimo = distanciaArriba
-                siguientePosicion = [ posicionRobot[0], posicionRobot[1]-1]
         almacenActual[posicionRobot[0]][posicionRobot[1]] = "0"
         almacenActual[siguientePosicion[0]][siguientePosicion[1]] = "R"
         print("Siguiente posicion = ", siguientePosicion)
@@ -133,43 +134,92 @@ def acomodarAlmacen(almacenActual,posicionRobot, tamanioMatriz, m):
         print(almacenActual[3])
         posicionRobot = siguientePosicion
 
-    
+    posicionRobot = siguientePosicion
     print("FIN PRIMER PARTE")
+    posicionAnterior = siguientePosicion
     siguientePosicion = [-1,-1]
+    minimo = 10000
+    
     while siguientePosicion != posicion_M_Objetivo[m]:
-        if(posicionRobot[0]+1 >= 0 and posicionRobot[0]+1 < tamanioMatriz and almacenActual[posicionRobot[0]+1][posicionRobot[1]] == "0"):
-            print("Se puede mover una posición a la derecha")
-            print("Posición con cordenadas: ", posicionRobot[0]+1, posicionRobot[1])
-            distanciaDerecha = distanciaManhattan([ posicionRobot[0]+1, posicionRobot[1]], posicion_M_Objetivo[m])
-            minimo = distanciaDerecha
-            siguientePosicion = [ posicionRobot[0]+1, posicionRobot[1]]
-            print(distanciaDerecha)
-        if(posicionRobot[0]-1 < tamanioMatriz and posicionRobot[0]-1 >= 0 and almacenActual[posicionRobot[0]-1][posicionRobot[1]] == "0"):
-            print("Se puede mover una posición a la izquierda")
-            print("Posición con cordenadas: ", posicionRobot[0]-1, posicionRobot[1])    
-            distanciaIzquierda = distanciaManhattan([ posicionRobot[0]-1, posicionRobot[1]], posicion_M_Objetivo[m])
-            print(distanciaIzquierda)
-            if(minimo>distanciaIzquierda):
-                minimo= distanciaIzquierda
-                siguientePosicion = [ posicionRobot[0]-1, posicionRobot[1]]
+        encontroSiguiente = False
+        print(minimo)
+        print("______________________")
+        print("______________________")
+        print("______________________")
+        print("______________________")
 
-        if(posicionRobot[1]+1 >= 0 and posicionRobot[1]+1 < tamanioMatriz and almacenActual[posicionRobot[0]][posicionRobot[1]+1] == "0"):
-            print("Se puede mover una posición a hacia abajo")
-            print("Posición con cordenadas: ", posicionRobot[0], posicionRobot[1]+1)  
-            distanciaAbajo = distanciaManhattan([ posicionRobot[0], posicionRobot[1]+1], posicion_M_Objetivo[m])
-            print(distanciaAbajo)
-            if(minimo>distanciaAbajo):
-                minimo = distanciaAbajo
-                siguientePosicion = [ posicionRobot[0], posicionRobot[1]+1]
-
-        if(posicionRobot[1]-1 >= 0 and posicionRobot[1]-1 < tamanioMatriz and almacenActual[posicionRobot[0]][posicionRobot[1]-1] == "0"):
-            print("Se puede mover una posición a hacia arriba")
-            print("Posición con cordenadas: ", posicionRobot[0], posicionRobot[1]-1)  
-            distanciaArriba = distanciaManhattan([ posicionRobot[0], posicionRobot[1]-1], posicion_M_Objetivo[m])
-            print(distanciaArriba)
-            if(minimo> distanciaArriba):
+        print("POSICIONES PRIMERO ANTERIOR DESPUES LA SIGUIENTE ",posicionAnterior, siguientePosicion)
+        if(posicionRobot[1]-1 >= 0 and posicionRobot[1]-1 < tamanioMatriz):
+            if( almacenActual[posicionRobot[0]][posicionRobot[1]-1] == "0"):
+                print("Se puede mover una posición izquierda")
+                print("Posición con cordenadas: ", posicionRobot[0], posicionRobot[1]-1)  
+                distanciaArriba = distanciaManhattan([ posicionRobot[0], posicionRobot[1]-1], posicion_M_Objetivo[m])
+                print(distanciaArriba)
+                encontroSiguiente = True
                 minimo = distanciaArriba
                 siguientePosicion = [ posicionRobot[0], posicionRobot[1]-1]
+                if(siguientePosicion == posicionAnterior):
+                        minimo = 10000
+                        encontroSiguiente = False
+        
+        if(posicionRobot[1]+1 >= 0 and posicionRobot[1]+1 < tamanioMatriz):
+            if(almacenActual[posicionRobot[0]][posicionRobot[1]+1] == "0"):
+                print("Se puede mover una posición derecha")
+                print("Posición con cordenadas: ", posicionRobot[0], posicionRobot[1]+1)  
+                distanciaAbajo = distanciaManhattan([ posicionRobot[0], posicionRobot[1]+1], posicion_M_Objetivo[m])
+                print(distanciaAbajo)
+                if(minimo>distanciaAbajo):
+                    encontroSiguiente = True
+                    minimo = distanciaAbajo
+                    siguientePosicion = [ posicionRobot[0], posicionRobot[1]+1]
+                    if(siguientePosicion == posicionAnterior):
+                        minimo = 10000
+                        encontroSiguiente = False
+
+        if(posicionRobot[0]+1 >= 0 and posicionRobot[0]+1 < tamanioMatriz ):
+            if(almacenActual[posicionRobot[0]+1][posicionRobot[1]] == "0"):
+                print("Se puede mover una posición abajo")
+                print("Posición con cordenadas: ", posicionRobot[0]+1, posicionRobot[1])
+                distanciaDerecha = distanciaManhattan([ posicionRobot[0]+1, posicionRobot[1]], posicion_M_Objetivo[m])
+                if(minimo>distanciaDerecha):
+                    minimo = distanciaDerecha
+                    siguientePosicion = [ posicionRobot[0]+1, posicionRobot[1]]
+                    if(siguientePosicion == posicionAnterior):
+                        print("Son iguales")
+                        minimo = 10000
+                        encontroSiguiente = False
+                    print("POSICIONES PRIMERO ANTERIOR DESPUES LA SIGUIENTE ",posicionAnterior, siguientePosicion)
+                    print("SIGUIENTE POSICION +++" , [ posicionRobot[0]+1, posicionRobot[1]])
+
+                encontroSiguiente = True
+                print(distanciaDerecha)
+        if(posicionRobot[0]-1 < tamanioMatriz and posicionRobot[0]-1 >= 0 ):
+            if( almacenActual[posicionRobot[0]-1][posicionRobot[1]] == "0"):
+                print("Se puede mover una posición arriba")
+                print("Posición con cordenadas: ", posicionRobot[0]-1, posicionRobot[1])    
+                distanciaIzquierda = distanciaManhattan([ posicionRobot[0]-1, posicionRobot[1]], posicion_M_Objetivo[m])
+                print(distanciaIzquierda)
+                if(minimo>distanciaIzquierda):
+                    encontroSiguiente = True
+                    minimo= distanciaIzquierda
+                    siguientePosicion = [ posicionRobot[0]-1, posicionRobot[1]]
+                    print("Siguiente posicion--------------", siguientePosicion)
+                    if(siguientePosicion == posicionAnterior):
+                        minimo = 10000
+                        encontroSiguiente= False
+
+
+      
+                
+        if(encontroSiguiente == False):
+            auxMomentaneo = siguientePosicion
+            siguientePosicion = posicionAnterior
+            posicionAnterior = auxMomentaneo
+            minimo = 1000
+        
+
+        print("POSICIONES PRIMERO ANTERIOR DESPUES LA SIGUIENTE ",posicionAnterior, siguientePosicion)
+
         print("Siguiente posicion = ", siguientePosicion)
         almacenActual[posicionRobot[0]][posicionRobot[1]] = "0"
         almacenActual[siguientePosicion[0]][siguientePosicion[1]] = str(m+1)
@@ -179,6 +229,7 @@ def acomodarAlmacen(almacenActual,posicionRobot, tamanioMatriz, m):
         print(almacenActual[2])
         print(almacenActual[3])
         posicionRobot = siguientePosicion
+        
     if( almacenActual[posicion_M[m][0]][posicion_M[m][1]] == "R"):
         almacenActual[posicion_M[m][0]][posicion_M[m][1]] = "0"
     almacenActual[posicion_M_Objetivo[m][0]] [posicion_M_Objetivo[m][1]] = str(m+1) 
@@ -188,7 +239,7 @@ def acomodarAlmacen(almacenActual,posicionRobot, tamanioMatriz, m):
 
 
 
-for x in range(1):
+for x in range(3):
     costeInicio = [0,0,0]
     puntoMasCercano = 0
 
@@ -204,6 +255,15 @@ for x in range(1):
     puntoMasCercano = costeInicio.index(min(costeInicio))
     print("Punto más cercano ", puntoMasCercano)
     almacen = acomodarAlmacen(almacen,posicion_R,4,puntoMasCercano)
+
+
+print(posicion_M)
+print(posicion_M_Objetivo)
+print(almacen)
+print(posicion_R)
+
+
+
 
 
 """
